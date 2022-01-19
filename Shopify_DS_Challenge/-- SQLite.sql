@@ -14,10 +14,13 @@ LIMIT 1
 Answer = Peacock with 40 orders
 
 --QUESTION 2C
-SELECT ProductName, COUNT(Quantity)
-FROM Orders a JOIN Customers b ON a.CustomerID = b.CustomerID 
-JOIN OrderDetails c ON a.OrderID = c.OrderID 
-JOIN Products d ON d.ProductID = c.ProductID
-WHERE Country='Germany'
-ORDER BY Quantity DESC
-LIMIT 1 
+SELECT ProductName, SUM(e.Quantity) AS Most_Ordered_Germany
+FROM OrderDetails e
+JOIN Products p ON p.ProductID=e.ProductID
+JOIN Orders o ON o.OrderID=e.OrderID
+JOIN Customers c ON c.CustomerID=o.CustomerID
+WHERE Country="Germany"
+GROUP BY e.ProductID
+ORDER BY Most_Ordered_Germany DESC
+LIMIT 1;
+Answer = Boston Crab Meat with 160 Orders
